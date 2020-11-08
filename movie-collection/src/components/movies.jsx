@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService'
-
+import Like from './common/like';
 
 class Movie extends Component {
     state = { 
         movies : getMovies()
      }
+
+    handleLike= (movie)=> {
+        const movies = [...this.state.movies];
+        const index = movies.indexOf(movie);
+        movies[index]= {...movie};
+        movies[index].liked = !movies[index].liked;
+        this.setState({movies})
+    }
 
     handleDelete = movie => {
         const movies = this.state.movies.filter(m=>m._id !== movie._id)
@@ -25,6 +33,7 @@ class Movie extends Component {
                         <th>Stock</th>
                         <th>Rate</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>  
@@ -34,6 +43,7 @@ class Movie extends Component {
                                 <td>{movie.genre.name}</td>
                                 <td>{movie.numberInStock}</td>
                                 <td>{movie.dailyRentalRate}</td>
+                                <td><Like liked={movie.liked} onClick={()=>this.handleLike(movie)}/></td>
                                 <td><button onClick={()=>this.handleDelete(movie)} className='btn btn-danger btn-sm'>Delete</button></td>
                             </tr>
                             
