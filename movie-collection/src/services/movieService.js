@@ -20,7 +20,10 @@ export function saveMovie(movie) {
         //deleting id from body because we have id in the url
         // having id in both url and body is confusing. which one is correct?!
         const body = { ...movie };
-        delete movie._id;
+        console.log(body);
+
+        delete body._id;
+        console.log(body);
         return http.put(movieUrl(movie._id), body);
     }
     return http.post(apiEndpoint, movie);
